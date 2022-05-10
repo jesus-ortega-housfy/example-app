@@ -1,0 +1,13 @@
+name: check_migrations
+on:
+  pull_request:
+    paths:
+      - 'database/migrations/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: user1, user2
