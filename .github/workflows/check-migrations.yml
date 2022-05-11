@@ -19,7 +19,7 @@ jobs:
           owner: jesus-ortega-housfy
           repo: example-app
           pull_number: ${{github.event.number}}
-          GITHUB_TOKEN: ${{ github.TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: "echo latest release: ${{ steps.get_reviews.outputs.data }}"
 
 #    This cannot be used because it does not provide the list of people that have approved the PR
