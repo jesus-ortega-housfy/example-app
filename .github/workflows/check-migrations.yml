@@ -11,9 +11,19 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+#    if: ${{ (github.event.review.state == 'approved') && (contains(github.event.pull_request.labels.*.name, 'test')) }}
     steps:
-      - uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: juan-castillo-housfy
-          minimum-approvals: 1
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - run: echo ${{ github.event.review.state }}
+
+#    Cannot use this because it "pauses" the build and as a result
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: trstringer/manual-approval@v1
+#        with:
+#          secret: ${{ github.TOKEN }}
+#          approvers: juan-castillo-housfy
+#          minimum-approvals: 1
