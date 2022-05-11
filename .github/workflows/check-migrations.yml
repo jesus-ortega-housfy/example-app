@@ -1,4 +1,4 @@
-name: check_migrations
+name: Check migrations
 on:
   pull_request:
     paths:
