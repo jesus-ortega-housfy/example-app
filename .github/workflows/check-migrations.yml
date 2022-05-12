@@ -9,33 +9,14 @@ permissions:
   pull-requests: write
 
 jobs:
-  build:
+  verifyReviwers:
     runs-on: ubuntu-latest
     steps:
-      - uses: octokit/request-action@v2.x
-        id: get_reviews
+      - uses: jesus-ortega-housfy/verify-users-approval@v1.0.9
+        id: verify users
         with:
-          route: GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews
-          owner: jesus-ortega-housfy
-          repo: example-app
-          pull_number: ${{github.event.number}}
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest release: ${{ steps.get_reviews.outputs.data }}"
-
-#    This cannot be used because it does not provide the list of people that have approved the PR
-#    if: ${{ (github.event.review.state == 'approved') && (contains(github.event.pull_request.labels.*.name, 'test')) }}
-#    steps:
-#      - name: Dump GitHub context
-#        env:
-#          GITHUB_CONTEXT: ${{ toJSON(github) }}
-#        run: echo "$GITHUB_CONTEXT"
-#      - run: echo ${{ github.event.review.state }}
-
-#    Cannot use this because it "pauses" the build and as a result
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: trstringer/manual-approval@v1
-#        with:
-#          secret: ${{ github.TOKEN }}
-#          approvers: juan-castillo-housfy
-#          minimum-approvals: 1
+          pullnumber: ${{ github.event.pull_request.number }}
+          users: juan-castillo-housfy,roger-sole-housfy
+          minreviewers: 1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
