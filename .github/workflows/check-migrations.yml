@@ -9,11 +9,11 @@ permissions:
   pull-requests: write
 
 jobs:
-  verifyReviwers:
+  verifyReviewers:
     runs-on: ubuntu-latest
     steps:
       - uses: jesus-ortega-housfy/verify-users-approval@v1.0.9
-        id: verify users
+        id: verify_reviewers
         with:
           pullnumber: ${{ github.event.pull_request.number }}
           users: juan-castillo-housfy,roger-sole-housfy
