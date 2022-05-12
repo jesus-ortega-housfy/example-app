@@ -9,14 +9,29 @@ permissions:
   pull-requests: write
 
 jobs:
+#  Running directly on hosts
   verifyReviewers:
     runs-on: ubuntu-latest
     steps:
-      - uses: jesus-ortega-housfy/verify-users-approval@v1.0.10
-        id: verify_reviewers
+      - uses: actions/checkout@v2
+      - name: "Verify reviewers if PR have migrations"
         with:
           pullnumber: ${{ github.event.pull_request.number }}
           users: juan-castillo-housfy,roger-sole-housfy
           minreviewers: 1
         env:
           GITHUB_TOKEN: ${{ github.token }}
+        run: bash bin/verifyreviewers.sh
+
+#  Running using action on a docker container
+#  verifyReviewers:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: jesus-ortega-housfy/verify-users-approval@v1.0.10
+#        id: verify_reviewers
+#        with:
+#          pullnumber: ${{ github.event.pull_request.number }}
+#          users: juan-castillo-housfy,roger-sole-housfy
+#          minreviewers: 1
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
