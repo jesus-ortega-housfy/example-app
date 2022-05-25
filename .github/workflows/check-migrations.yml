@@ -2,8 +2,6 @@ name: Check migrations
 on:
   pull_request_review:
     types: [submitted]
-    paths:
-      - 'database/migrations/**'
 
 permissions:
   issues: write
@@ -14,7 +12,14 @@ jobs:
   verifyReviewers:
     runs-on: ubuntu-latest
     steps:
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            mypath:
+             - 'database/migrations/**'
       - uses: housfy/verify-users-approval@v1.0.18
+        if: steps.changes.outputs.mypath == 'true'
         id: verify_reviewers
         with:
           pullnumber: ${{ github.event.pull_request.number }}
