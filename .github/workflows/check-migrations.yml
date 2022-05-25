@@ -1,6 +1,7 @@
 name: Check migrations
 on:
-  pull_request:
+  pull_request_review:
+    types: [submitted]
     paths:
       - 'database/migrations/**'
 
@@ -9,11 +10,11 @@ permissions:
   pull-requests: write
 
 jobs:
-#  Running directly on hosts
+  #  Running directly on hosts
   verifyReviewers:
     runs-on: ubuntu-latest
     steps:
-      - uses: jesus-ortega-housfy/verify-users-approval@v1.0.18
+      - uses: housfy/verify-users-approval@v1.0.18
         id: verify_reviewers
         with:
           pullnumber: ${{ github.event.pull_request.number }}
